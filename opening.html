@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selamat Ulang Tahun!</title>
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Lato:300italic);
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        overflow: hidden; /* biar ga geser-geser */
+        background: linear-gradient(to top, #ee9ca7, #f6e5d5);
+        font-family: "Lato", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        color: #8b6a60;
+        position: relative;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: clamp(1.8em, 5vw, 2.8em);
+        margin: 0;
+        opacity: 0;
+        animation: fadeIn 2s forwards;
+        padding: 0 10px;
+      }
+
+      p {
+        margin-top: 10px;
+        font-size: clamp(1em, 3.5vw, 1.2em);
+        opacity: 0;
+        animation: fadeIn 2s 1s forwards;
+        padding: 0 10px;
+      }
+
+      button {
+        margin-top: 30px;
+        padding: 12px 28px;
+        font-size: clamp(0.9em, 3vw, 1.1em);
+        background-color: #e89e7e;
+        border: none;
+        border-radius: 30px;
+        color: white;
+        cursor: pointer;
+        opacity: 0;
+        animation: fadeIn 2s 2s forwards;
+        transition: transform 0.2s, background-color 0.3s;
+        white-space: nowrap;
+      }
+
+      button:hover {
+        background-color: #d07b5c;
+        transform: scale(1.05);
+      }
+
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ===== BALON TERBANG ===== */
+      .balloon {
+        position: absolute;
+        bottom: -150px;
+        width: 60px;
+        height: 80px;
+        border-radius: 50%;
+        opacity: 0.85;
+        animation: floatUp 8s linear infinite;
+      }
+
+      .balloon::after {
+        content: "";
+        position: absolute;
+        bottom: -30px;
+        left: 50%;
+        width: 2px;
+        height: 30px;
+        background-color: rgba(0, 0, 0, 0.2);
+        transform: translateX(-50%);
+      }
+
+      /* ====== KEMBANG API ====== */
+      .firework {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: white;
+        animation: explode 1.2s ease-out forwards;
+        pointer-events: none;
+      }
+
+      @keyframes explode {
+        0% {
+          transform: scale(0.2);
+          opacity: 1;
+        }
+        80% {
+          transform: scale(1.2);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1.5);
+          opacity: 0;
+        }
+      }
+
+      @keyframes floatUp {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 0.9;
+        }
+        100% {
+          transform: translateY(-110vh) rotate(15deg);
+          opacity: 0;
+        }
+      }
+
+      /* warna balon */
+      .pink {
+        background-color: #ffb6c1;
+        animation-delay: 0s;
+        left: 10%;
+      }
+      .blue {
+        background-color: #a7c7e7;
+        animation-delay: 2s;
+        left: 30%;
+      }
+      .yellow {
+        background-color: #f7e38d;
+        animation-delay: 4s;
+        left: 50%;
+      }
+      .lavender {
+        background-color: #e6e6fa;
+        animation-delay: 1s;
+        left: 70%;
+      }
+      .mint {
+        background-color: #c1e1c1;
+        animation-delay: 3s;
+        left: 90%;
+      }
+
+      /* ====== RESPONSIVE DESIGN ====== */
+
+      /* Tablet */
+      @media (max-width: 768px) {
+        .balloon {
+          width: 45px;
+          height: 65px;
+        }
+      }
+
+      /* HP (mobile) */
+      @media (max-width: 480px) {
+        .balloon {
+          width: 35px;
+          height: 50px;
+        }
+        .balloon::after {
+          height: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- balon terbang -->
+    <div class="balloon pink"></div>
+    <div class="balloon blue"></div>
+    <div class="balloon yellow"></div>
+    <div class="balloon lavender"></div>
+    <div class="balloon mint"></div>
+
+    <!-- teks ucapan -->
+    <h1>🎉 Selamat Ulang Tahun NANDOO!! 🎂</h1>
+    <p>Wish You All The Best 💖</p>
+
+    <!-- tombol -->
+    <button onclick="goToCake()">Klik 🍰</button>
+
+    <script>
+      // ==== Fungsi kembang api opening ====
+      function createFirework() {
+        const firework = document.createElement("div");
+        firework.classList.add("firework");
+        document.body.appendChild(firework);
+
+        // Posisi acak
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * window.innerHeight * 0.4;
+        firework.style.left = `${x}px`;
+        firework.style.top = `${y}px`;
+
+        // Warna acak
+        const colors = [
+          "#ff4d6d",
+          "#f9d423",
+          "#24c6dc",
+          "#ff8c00",
+          "#d68fff",
+          "#80ff72",
+        ];
+        firework.style.backgroundColor =
+          colors[Math.floor(Math.random() * colors.length)];
+
+        // Efek "pecah" jadi beberapa titik kecil
+        for (let i = 0; i < 8; i++) {
+          const particle = document.createElement("div");
+          particle.classList.add("firework");
+          particle.style.backgroundColor = firework.style.backgroundColor;
+          particle.style.left = `${x}px`;
+          particle.style.top = `${y}px`;
+          particle.style.width = "4px";
+          particle.style.height = "4px";
+
+          const angle = (i / 8) * Math.PI * 2;
+          const distance = 60 + Math.random() * 30;
+          particle.animate(
+            [
+              { transform: "translate(0, 0)", opacity: 1 },
+              {
+                transform: `translate(${Math.cos(angle) * distance}px, ${
+                  Math.sin(angle) * distance
+                }px)`,
+                opacity: 0,
+              },
+            ],
+            { duration: 10000, easing: "ease-out", fill: "forwards" }
+          );
+
+          document.body.appendChild(particle);
+          setTimeout(() => particle.remove(), 10000);
+        }
+
+        // Hapus percikan utama
+        setTimeout(() => firework.remove(), 10000);
+      }
+
+      // Jalankan kembang api saat halaman dibuka
+      // Jalankan kembang api dengan delay
+      setTimeout(() => {
+        let fireworkCount = 0;
+        const fireworkInterval = setInterval(() => {
+          createFirework();
+          fireworkCount++;
+          if (fireworkCount > 20) clearInterval(fireworkInterval);
+        }, 150);
+      }, 2500); // jeda 1.5 detik sebelum kembang api mulai
+
+      function goToCake() {
+        document.body.style.transition = "opacity 1s";
+        document.body.style.opacity = "0";
+        setTimeout(() => {
+          window.location.href = "birthday-cake.html";
+        }, 1000);
+      }
+    </script>
+  </body>
+</html>
